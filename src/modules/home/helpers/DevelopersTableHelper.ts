@@ -1,3 +1,5 @@
+import { MRT_ColumnFiltersState, MRT_SortingState } from 'material-react-table';
+
 export const developersTableColumns = [
 	{
 		accessorKey: 'name',
@@ -28,3 +30,19 @@ export const developersTableColumns = [
 		header: 'Team',
 	},
 ];
+
+export const getFormattedQuery = (
+	columnFilters: MRT_ColumnFiltersState,
+	sorting: MRT_SortingState
+) => {
+	const columnNameSort =
+		sorting.find((item) => item.id === 'name') || ({} as any);
+	const query = {
+		sortBy: 'name',
+		sort: columnNameSort.desc ? 'desc' : 'asc',
+	} as any;
+
+	columnFilters.forEach((filter) => (query[filter.id] = filter.value));
+
+	return query;
+};

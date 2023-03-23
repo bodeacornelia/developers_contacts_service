@@ -1,62 +1,48 @@
-import Developer from '../models/Developer';
-import { CreateUserFormState } from '../modules/home/hooks/useCreateNewUserModal';
+import { Developer } from '../types';
+import { APIRequestDeveloper } from '../modules/home/hooks/useCreateNewUserModal';
 
-const apiDevelopers: any[] = [
+const apiDevelopers: Developer[] = [
 	{
-		firstName: 'Dylan',
-		lastName: 'Murray',
+		name: 'Dylan 1',
 		email: 'someemail@gmail.com',
-		role: 'FS',
-		status: 'FULL_TIME',
+		role: 'Fullstack',
+		status: 'Full time',
 		team: 'A',
 	},
 	{
-		firstName: 'Name',
-		lastName: '2',
+		name: 'Name 2',
 		email: 'someemail@gmail.com',
-		role: 'FS',
-		status: 'FULL_TIME',
+		role: 'Fullstack',
+		status: 'Full time',
 		team: 'C',
 	},
 	{
-		firstName: 'Name',
-		lastName: '3',
+		name: 'Name 3',
 		email: 'someemail@gmail.com',
-		role: 'FE',
-		status: 'CONTRACTOR',
+		role: 'Frontend',
+		status: 'Contractor',
 		team: 'B',
 	},
 	{
-		firstName: 'Name',
-		lastName: '4',
+		name: 'Name 4',
 		email: 'someemail@gmail.com',
-		role: 'BE',
-		status: 'TEMP_UNAVAILABLE',
+		role: 'Backend',
+		status: 'Temporarly unavaliable',
 		team: 'A',
 	},
 ];
 
-export interface APIDeveloper {
-	firstName: string;
-	lastName: string;
-	email: string;
-	role: string;
-	status: string;
-	team: string;
-}
-
 export const getDeveloperList = async ({
-	columnFilters,
-	sorting,
+	queryKey,
 }: any): Promise<Developer[]> => {
-	const params = { ...columnFilters, ...sorting };
-	const searchParams = new URLSearchParams(params).toString();
+	const [_, query] = queryKey;
+	const searchParams = new URLSearchParams(query).toString();
 	const endpoint = '/api/developers';
 
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			const response = {
-				data: apiDevelopers.map((item) => new Developer(item)),
+				data: apiDevelopers,
 			};
 			resolve(response.data);
 		}, 1000); // Simulate a 2 second delay in the response
@@ -77,23 +63,19 @@ export const getDeveloperList = async ({
 };
 
 export const addNewDeveloper = async (
-	newDeveloper: CreateUserFormState
+	newDeveloper: APIRequestDeveloper
 ): Promise<any> => {
 	const endpoint = '/api/developers';
 
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			apiDevelopers.push({
-				firstName: newDeveloper.firstName,
-				lastName: newDeveloper.lastName,
+				name: newDeveloper.name,
 				email: newDeveloper.email,
-				role: 'BE',
-				status: newDeveloper.status,
-				team: newDeveloper.team,
+				role: 'Backend',
+				status: 'haha',
+				team: 'haha',
 			});
-			const response = {
-				data: apiDevelopers.map((item) => new Developer(item)),
-			};
 			resolve('');
 		}, 500); // Simulate a 2 second delay in the response
 	});

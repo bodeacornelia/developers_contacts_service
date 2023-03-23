@@ -1,37 +1,39 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import React, { useReducer } from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { addNewDeveloper } from '../../../api/developer';
-import Developer from '../../../models/Developer';
-import Role, { apiRoles } from '../../../models/Role';
+import { getResourceList } from '../../../api/requests';
+import { Role, Status, Team } from '../../../types';
 
-export type CreateUserFormState = {
-	firstName: string;
-	lastName: string;
+export interface APIRequestDeveloper {
+	name: string;
 	email: string;
-	roleId: number;
-	status: string;
-	team: string;
-};
+	roleId: string;
+	statusId: string;
+	teamId: string;
+}
 
 const createUserFormReducer = (
-	state: CreateUserFormState,
+	state: APIRequestDeveloper,
 	action: any
-): CreateUserFormState => {
+): APIRequestDeveloper => {
 	return { ...state, [action.type]: action.payload };
 };
+
+const ROLE_RESOURCE = 'roles';
+const STATUS_RESOURCE = 'statuses';
+const TEAM_RESOURCE = 'teams';
 
 export const useCreateNewUserModal = ({
 	handleClose,
 }: {
 	handleClose: () => void;
 }) => {
-	const initialState: CreateUserFormState = {
-		firstName: '',
-		lastName: '',
+	const initialState: APIRequestDeveloper = {
+		name: '',
 		email: '',
-		roleId: 0,
-		status: '',
-		team: '',
+		roleId: '',
+		statusId: '',
+		teamId: '',
 	};
 
 	const [userFormState, dispatch] = useReducer(
@@ -41,12 +43,12 @@ export const useCreateNewUserModal = ({
 
 	const createDeveloperMutation = useCreateDeveloperMutation();
 
-	const [roles, setRoles] = useState([] as Role[]);
-
-	useEffect(() => {
-		const roles = apiRoles.map((item) => new Role(item));
-		setRoles(roles);
-	}, []);
+	const { data: roles = [] as Role[] } =
+		useResourceListQuery<Role>(ROLE_RESOURCE);
+	const { data: statuses = [] as Status[] } =
+		useResourceListQuery<Status>(STATUS_RESOURCE);
+	const { data: teams = [] as Team[] } =
+		useResourceListQuery<Team>(TEAM_RESOURCE);
 
 	const handleInputChange = (name: string) => (event: any) => {
 		const value = event.target.value;
@@ -64,6 +66,8 @@ export const useCreateNewUserModal = ({
 	return {
 		userFormState,
 		roles,
+		statuses,
+		teams,
 		dispatch,
 		handleInputChange,
 		handleFormSubmit,
@@ -73,10 +77,20 @@ export const useCreateNewUserModal = ({
 const useCreateDeveloperMutation = () => {
 	const queryClient = useQueryClient();
 
-	return useMutation<string, unknown, CreateUserFormState>(addNewDeveloper, {
+	return useMutation<string, unknown, APIRequestDeveloper>(addNewDeveloper, {
 		onSuccess: () => {
 			// Manually update the cache and trigger a re-render of the resources list
-			queryClient.invalidateQueries(Developer.DOMAIN);
+			queryClient.invalidateQueries('developers');
 		},
 	});
+};
+
+const useResourceListQuery = <T>(resourceType: string) => {
+	return useQuery<T[]>(
+		[resourceType],
+		() => getResourceList<T>(resourceType),
+		{
+			refetchOnMount: true,
+		}
+	);
 };

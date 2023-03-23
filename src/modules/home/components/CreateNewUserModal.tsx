@@ -9,38 +9,12 @@ import {
 } from '@mui/material';
 import React from 'react';
 import Select from '../../../components/Select';
+import {
+	getFormattedRoles,
+	getFormattedStatuses,
+	getFormattedTeams,
+} from '../helpers/CreateNewUserModalHelper';
 import { useCreateNewUserModal } from '../hooks/useCreateNewUserModal';
-import Role from '../../../models/Role';
-
-const teamOptions = [
-	{
-		label: 'Team A',
-		value: 'A',
-	},
-	{
-		label: 'Team B',
-		value: 'B',
-	},
-	{
-		label: 'Team C',
-		value: 'C',
-	},
-];
-
-const statusOptions = [
-	{
-		label: 'Full time',
-		value: 'FULL_TIME',
-	},
-	{
-		label: 'Contractor',
-		value: 'CONTRACTOR',
-	},
-	{
-		label: 'Temporarily unavailable',
-		value: 'TEMP_UNAVAILABLE',
-	},
-];
 
 interface CreateNewUserModalProps {
 	open: boolean;
@@ -51,8 +25,14 @@ const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
 	open,
 	handleClose,
 }) => {
-	const { userFormState, roles, handleInputChange, handleFormSubmit } =
-		useCreateNewUserModal({ handleClose });
+	const {
+		userFormState,
+		roles,
+		statuses,
+		teams,
+		handleInputChange,
+		handleFormSubmit,
+	} = useCreateNewUserModal({ handleClose });
 
 	return (
 		<Dialog open={open} onClose={handleClose}>
@@ -62,23 +42,13 @@ const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
 					<Stack spacing={4}>
 						<TextField
 							margin="dense"
-							id="firstName"
-							label="First name"
+							id="name"
+							label="Name and surname"
 							type="text"
 							fullWidth
 							variant="standard"
-							onChange={handleInputChange('firstName')}
-							value={userFormState.firstName}
-						/>
-						<TextField
-							margin="dense"
-							id="lastName"
-							label="Last name"
-							type="text"
-							fullWidth
-							variant="standard"
-							onChange={handleInputChange('lastName')}
-							value={userFormState.lastName}
+							onChange={handleInputChange('name')}
+							value={userFormState.name}
 						/>
 						<TextField
 							margin="dense"
@@ -95,23 +65,23 @@ const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
 							id="roleId"
 							value={userFormState.roleId}
 							handleInputChange={handleInputChange}
-							options={Role.getFormattedRoles(roles)}
+							options={getFormattedRoles(roles)}
 						/>
 
 						<Select
 							label="Status"
-							id="status"
-							value={userFormState.status}
+							id="statusId"
+							value={userFormState.statusId}
 							handleInputChange={handleInputChange}
-							options={statusOptions}
+							options={getFormattedStatuses(statuses)}
 						/>
 
 						<Select
 							label="Team"
-							id="team"
-							value={userFormState.team}
+							id="teamId"
+							value={userFormState.teamId}
 							handleInputChange={handleInputChange}
-							options={teamOptions}
+							options={getFormattedTeams(teams)}
 						/>
 					</Stack>
 				</DialogContent>

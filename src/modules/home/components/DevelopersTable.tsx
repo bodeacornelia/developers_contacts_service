@@ -11,6 +11,7 @@ const DevelopersTable = () => {
 		data,
 		columnFilters,
 		sorting,
+		isLoading,
 		setSorting,
 		setColumnFilters,
 	} = useDevelopersTable();
@@ -26,7 +27,7 @@ const DevelopersTable = () => {
 			manualSorting
 			onSortingChange={setSorting}
 			onColumnFiltersChange={setColumnFilters}
-			state={{ columnFilters, sorting }}
+			state={{ columnFilters, sorting, isLoading }}
 			renderRowActions={({ row }) => (
 				<Box>
 					<IconButton onClick={() => console.info('Edit')}>
