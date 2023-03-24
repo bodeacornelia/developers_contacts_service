@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import { CREATE_NEW_USER } from '../constants';
-import CreateNewUserModal from './CreateNewUserModal';
+import UserModal from './UserModal';
 
 const CreateNewUser = () => {
 	const [open, setOpen] = useState(false);
@@ -19,9 +19,7 @@ const CreateNewUser = () => {
 			<Button variant="outlined" onClick={handleClickOpen}>
 				{CREATE_NEW_USER}
 			</Button>
-			{open && (
-				<CreateNewUserModal open={open} handleClose={handleClose} />
-			)}
+			{open && <UserModal open={open} handleClose={handleClose} />}
 		</>
 	);
 };

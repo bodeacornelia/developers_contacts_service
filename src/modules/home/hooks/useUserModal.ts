@@ -1,7 +1,8 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import {
 	useCreateResourceMutation,
 	useResourceListQuery,
+	useUpdateResourceMutation,
 } from '../../../core/hooks/useAPIQuery';
 import { Developer, Role, Status, Team } from '../../../types';
 import { DEVELOPER_RESOURCE } from './useDevelopersTable';
@@ -14,7 +15,7 @@ export interface APIRequestDeveloper {
 	teamId: string;
 }
 
-const createUserFormReducer = (
+const userFormReducer = (
 	state: APIRequestDeveloper,
 	action: any
 ): APIRequestDeveloper => {
@@ -25,26 +26,19 @@ const ROLE_RESOURCE = 'roles';
 const STATUS_RESOURCE = 'statuses';
 const TEAM_RESOURCE = 'teams';
 
-export const useCreateNewUserModal = ({
+export const useUserModal = ({
+	user,
 	handleClose,
 }: {
+	user: Developer;
 	handleClose: () => void;
 }) => {
-	const initialState: APIRequestDeveloper = {
-		name: '',
-		email: '',
-		roleId: '',
-		statusId: '',
-		teamId: '',
-	};
-
-	const [userFormState, dispatch] = useReducer(
-		createUserFormReducer,
-		initialState
-	);
-
 	const createDeveloperMutation =
 		useCreateResourceMutation<Developer>(DEVELOPER_RESOURCE);
+	const updateDeveloperMutation = useUpdateResourceMutation<Developer>(
+		DEVELOPER_RESOURCE,
+		user.id
+	);
 
 	const { data: roles = [] as Role[] } =
 		useResourceListQuery<Role>(ROLE_RESOURCE);
@@ -52,6 +46,29 @@ export const useCreateNewUserModal = ({
 		useResourceListQuery<Status>(STATUS_RESOURCE);
 	const { data: teams = [] as Team[] } =
 		useResourceListQuery<Team>(TEAM_RESOURCE);
+
+	const initialState: APIRequestDeveloper = {
+		name: user.name || '',
+		email: user.email || '',
+		roleId: '',
+		statusId: '',
+		teamId: '',
+	};
+
+	useEffect(() => {
+		const roleId = roles.find((role) => role.role === user.role)?.id || '';
+		const statusId =
+			statuses.find((status) => status.status === user.status)?.id || '';
+		const teamId = teams.find((team) => team.team === user.team)?.id || '';
+
+		if (user.name) {
+			dispatch({ type: 'roleId', payload: roleId });
+			dispatch({ type: 'statusId', payload: statusId });
+			dispatch({ type: 'teamId', payload: teamId });
+		}
+	}, [user.name, roles, statuses, teams]);
+
+	const [userFormState, dispatch] = useReducer(userFormReducer, initialState);
 
 	const handleInputChange = (name: string) => (event: any) => {
 		const value = event.target.value;
@@ -62,7 +79,12 @@ export const useCreateNewUserModal = ({
 		event: React.FormEvent<HTMLFormElement>
 	) => {
 		event.preventDefault();
-		await createDeveloperMutation.mutateAsync(userFormState);
+		if (user.id) {
+			await updateDeveloperMutation.mutateAsync(userFormState);
+		} else {
+			await createDeveloperMutation.mutateAsync(userFormState);
+		}
+
 		handleClose();
 	};
 

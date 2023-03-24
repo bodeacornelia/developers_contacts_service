@@ -1,9 +1,7 @@
-import { Box, IconButton } from '@mui/material';
 import MaterialReactTable from 'material-react-table';
 import React from 'react';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useDevelopersTable } from '../hooks/useDevelopersTable';
+import EditUser from './EditUser';
 
 const DevelopersTable = () => {
 	const {
@@ -28,16 +26,7 @@ const DevelopersTable = () => {
 			onSortingChange={setSorting}
 			onColumnFiltersChange={setColumnFilters}
 			state={{ columnFilters, sorting, isLoading }}
-			renderRowActions={({ row }) => (
-				<Box>
-					<IconButton onClick={() => console.info('Edit')}>
-						<EditIcon />
-					</IconButton>
-					<IconButton onClick={() => console.info('Delete')}>
-						<DeleteIcon />
-					</IconButton>
-				</Box>
-			)}
+			renderRowActions={({ row }) => <EditUser user={row.original} />}
 		/>
 	);
 };

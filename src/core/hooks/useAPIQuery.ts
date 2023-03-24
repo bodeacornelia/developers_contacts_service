@@ -1,6 +1,10 @@
 import React from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { creatResource, getResourceList } from '../api/requests';
+import {
+	creatResource,
+	getResourceList,
+	updateResource,
+} from '../api/requests';
 
 export const useResourceListQuery = <T>(resourceType: string, query?: any) => {
 	return useQuery<T[]>(
@@ -17,6 +21,23 @@ export const useCreateResourceMutation = <T>(resource: string) => {
 
 	return useMutation<T[], unknown, any>(
 		(payload: any) => creatResource<T>(resource, payload),
+		{
+			onSuccess: () => {
+				// Manually update the cache and trigger a re-render of the resources list
+				queryClient.invalidateQueries(resource);
+			},
+		}
+	);
+};
+
+export const useUpdateResourceMutation = <T>(
+	resource: string,
+	resourceId: string
+) => {
+	const queryClient = useQueryClient();
+
+	return useMutation<T[], unknown, any>(
+		(payload: any) => updateResource<T>(resource, resourceId, payload),
 		{
 			onSuccess: () => {
 				// Manually update the cache and trigger a re-render of the resources list

@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import Select from '../../../core/components/Select';
+import { Developer } from '../../../types';
 import {
 	CANCEL_BUTTON,
 	CREATE_NEW_USER,
@@ -23,16 +24,20 @@ import {
 	getFormattedRoles,
 	getFormattedStatuses,
 	getFormattedTeams,
-} from '../helpers/CreateNewUserModalHelper';
-import { useCreateNewUserModal } from '../hooks/useCreateNewUserModal';
+} from '../helpers/UserModalHelper';
+import { useUserModal } from '../hooks/useUserModal';
 
-interface CreateNewUserModalProps {
+interface UserModalProps {
 	open: boolean;
+	title?: string;
+	user?: Developer;
 	handleClose: () => void;
 }
 
-const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
+const UserModal: React.FC<UserModalProps> = ({
 	open,
+	title = CREATE_NEW_USER,
+	user = {} as Developer,
 	handleClose,
 }) => {
 	const {
@@ -42,12 +47,12 @@ const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
 		teams,
 		handleInputChange,
 		handleFormSubmit,
-	} = useCreateNewUserModal({ handleClose });
+	} = useUserModal({ user, handleClose });
 
 	return (
 		<Dialog open={open} onClose={handleClose}>
 			<form onSubmit={handleFormSubmit}>
-				<DialogTitle>{CREATE_NEW_USER}</DialogTitle>
+				<DialogTitle>{title}</DialogTitle>
 				<DialogContent sx={{ width: '400px' }}>
 					<Stack spacing={4}>
 						<TextField
@@ -104,4 +109,4 @@ const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
 	);
 };
 
-export default CreateNewUserModal;
+export default UserModal;

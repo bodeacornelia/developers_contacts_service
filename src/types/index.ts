@@ -14,6 +14,7 @@ export type Role = {
 };
 
 export type Developer = {
+	id: string;
 	name: string;
 	email: string;
 	role: string;

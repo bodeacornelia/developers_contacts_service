@@ -53,3 +53,31 @@ export const creatResource = async <T>(
 		throw error;
 	}
 };
+
+export const updateResource = async <T>(
+	resource: string,
+	resourceId: string,
+	payload?: any
+): Promise<T[]> => {
+	const url = `${getApiURL()}${resource}/${resourceId}`;
+
+	try {
+		const response = await fetch(url, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(payload),
+		});
+
+		if (response.ok) {
+			const formattedRes = await response.json();
+
+			return formattedRes.data[resource];
+		} else {
+			throw new Error('Something went wrong');
+		}
+	} catch (error) {
+		throw error;
+	}
+};
