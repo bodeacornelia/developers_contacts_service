@@ -1,0 +1,9 @@
+export const CREATE_NEW_USER = 'Create new user';
+export const NAME_SURNAME_LABEL = 'Name and surname';
+export const EMAIL_LABEL = 'Email address';
+export const ROLE = 'Role';
+export const STATUS = 'Status';
+export const TEAM = 'Team';
+export const DONE_BUTTON = 'Done';
+export const CANCEL_BUTTON = 'Cancel';
+export const PAGE_TITLE = 'Developers Contacts';

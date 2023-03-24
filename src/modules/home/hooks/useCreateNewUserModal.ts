@@ -1,7 +1,8 @@
 import React, { useReducer } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
-import { creatResource } from '../../../api/requests';
-import { useResourceListQuery } from '../../../core/hooks/useAPIQuery';
+import {
+	useCreateResourceMutation,
+	useResourceListQuery,
+} from '../../../core/hooks/useAPIQuery';
 import { Developer, Role, Status, Team } from '../../../types';
 import { DEVELOPER_RESOURCE } from './useDevelopersTable';
 
@@ -42,7 +43,8 @@ export const useCreateNewUserModal = ({
 		initialState
 	);
 
-	const createDeveloperMutation = useCreateDeveloperMutation();
+	const createDeveloperMutation =
+		useCreateResourceMutation<Developer>(DEVELOPER_RESOURCE);
 
 	const { data: roles = [] as Role[] } =
 		useResourceListQuery<Role>(ROLE_RESOURCE);
@@ -73,19 +75,4 @@ export const useCreateNewUserModal = ({
 		handleInputChange,
 		handleFormSubmit,
 	};
-};
-
-const useCreateDeveloperMutation = () => {
-	const queryClient = useQueryClient();
-
-	return useMutation<Developer[], unknown, APIRequestDeveloper>(
-		(payload: APIRequestDeveloper) =>
-			creatResource<Developer>('users', payload),
-		{
-			onSuccess: () => {
-				// Manually update the cache and trigger a re-render of the resources list
-				queryClient.invalidateQueries(DEVELOPER_RESOURCE);
-			},
-		}
-	);
 };

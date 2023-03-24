@@ -10,6 +10,16 @@ import {
 import React from 'react';
 import Select from '../../../core/components/Select';
 import {
+	CANCEL_BUTTON,
+	CREATE_NEW_USER,
+	DONE_BUTTON,
+	EMAIL_LABEL,
+	NAME_SURNAME_LABEL,
+	ROLE,
+	STATUS,
+	TEAM,
+} from '../constants';
+import {
 	getFormattedRoles,
 	getFormattedStatuses,
 	getFormattedTeams,
@@ -37,13 +47,13 @@ const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
 	return (
 		<Dialog open={open} onClose={handleClose}>
 			<form onSubmit={handleFormSubmit}>
-				<DialogTitle>Create new user</DialogTitle>
+				<DialogTitle>{CREATE_NEW_USER}</DialogTitle>
 				<DialogContent sx={{ width: '400px' }}>
 					<Stack spacing={4}>
 						<TextField
 							margin="dense"
 							id="name"
-							label="Name and surname"
+							label={NAME_SURNAME_LABEL}
 							type="text"
 							fullWidth
 							variant="standard"
@@ -53,7 +63,7 @@ const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
 						<TextField
 							margin="dense"
 							id="email"
-							label="Email address"
+							label={EMAIL_LABEL}
 							type="email"
 							fullWidth
 							variant="standard"
@@ -61,7 +71,7 @@ const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
 							value={userFormState.email}
 						/>
 						<Select
-							label="Role"
+							label={ROLE}
 							id="roleId"
 							value={userFormState.roleId}
 							handleInputChange={handleInputChange}
@@ -69,7 +79,7 @@ const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
 						/>
 
 						<Select
-							label="Status"
+							label={STATUS}
 							id="statusId"
 							value={userFormState.statusId}
 							handleInputChange={handleInputChange}
@@ -77,7 +87,7 @@ const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
 						/>
 
 						<Select
-							label="Team"
+							label={TEAM}
 							id="teamId"
 							value={userFormState.teamId}
 							handleInputChange={handleInputChange}
@@ -86,8 +96,8 @@ const CreateNewUserModal: React.FC<CreateNewUserModalProps> = ({
 					</Stack>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClose}>Cancel</Button>
-					<Button type="submit">Done</Button>
+					<Button onClick={handleClose}>{CANCEL_BUTTON}</Button>
+					<Button type="submit">{DONE_BUTTON}</Button>
 				</DialogActions>
 			</form>
 		</Dialog>

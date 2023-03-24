@@ -1,5 +1,6 @@
 import { Box, Breadcrumbs, Button, Link, Typography } from '@mui/material';
 import React from 'react';
+import { PAGE_TITLE } from '../constants';
 import CreateNewUser from './CreateNewUser';
 
 const styles = {
@@ -15,16 +16,16 @@ const MainAction = () => (
 	<Box sx={styles.mainActionsContainer}>
 		<Breadcrumbs aria-label="breadcrumb">
 			<Link underline="hover" color="inherit" href="/">
-				MUI
+				Dashboard
 			</Link>
 			<Link
 				underline="hover"
 				color="inherit"
 				href="/material-ui/getting-started/installation/"
 			>
-				Core
+				{PAGE_TITLE}
 			</Link>
-			<Typography color="text.primary">Breadcrumbs</Typography>
+			<Typography color="text.primary">View All</Typography>
 		</Breadcrumbs>
 		<CreateNewUser />
 	</Box>

@@ -3,6 +3,7 @@ import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import MenuIcon from '@mui/icons-material/Menu';
+import { PAGE_TITLE } from '../constants';
 
 const TopBar = () => (
 	<AppBar position="static">
@@ -23,7 +24,7 @@ const TopBar = () => (
 					flexGrow: 1,
 				}}
 			>
-				Developers Contacts
+				{PAGE_TITLE}
 			</Typography>
 			<Box>
 				<IconButton size="large" aria-label="search" color="inherit">

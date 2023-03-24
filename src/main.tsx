@@ -4,14 +4,17 @@ import App from './App';
 import './index.css';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import ErrorBoundery from './core/components/ErrorBoundery';
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
-		<QueryClientProvider client={queryClient}>
-			<App />
-			<ReactQueryDevtools initialIsOpen />
-		</QueryClientProvider>
+		<ErrorBoundery>
+			<QueryClientProvider client={queryClient}>
+				<App />
+				<ReactQueryDevtools initialIsOpen />
+			</QueryClientProvider>
+		</ErrorBoundery>
 	</React.StrictMode>
 );

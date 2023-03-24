@@ -1,5 +1,3 @@
-import { APIRequestDeveloper } from '../modules/home/hooks/useCreateNewUserModal';
-
 const getApiURL = () => import.meta.env.VITE_API_URL;
 
 export const getResourceList = async <T>(
@@ -31,7 +29,7 @@ export const getResourceList = async <T>(
 
 export const creatResource = async <T>(
 	resource: string,
-	payload?: APIRequestDeveloper
+	payload?: any
 ): Promise<T[]> => {
 	const url = `${getApiURL()}${resource}`;
 

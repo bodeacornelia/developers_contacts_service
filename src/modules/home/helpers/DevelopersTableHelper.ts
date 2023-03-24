@@ -1,4 +1,5 @@
 import { MRT_ColumnFiltersState, MRT_SortingState } from 'material-react-table';
+import { TEAM } from '../constants';
 
 export const developersTableColumns = [
 	{
@@ -28,6 +29,8 @@ export const developersTableColumns = [
 		enableColumnActions: false,
 		enableColumnFilter: false,
 		header: 'Team',
+		Cell: ({ renderedCellValue }: { renderedCellValue: string }) =>
+			`${TEAM} ${renderedCellValue}`,
 	},
 ];
 
