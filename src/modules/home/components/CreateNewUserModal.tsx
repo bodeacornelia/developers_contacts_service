@@ -8,7 +8,7 @@ import {
 	TextField,
 } from '@mui/material';
 import React from 'react';
-import Select from '../../../components/Select';
+import Select from '../../../core/components/Select';
 import {
 	getFormattedRoles,
 	getFormattedStatuses,

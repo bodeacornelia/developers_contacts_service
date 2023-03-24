@@ -35,12 +35,15 @@ export const getFormattedQuery = (
 	columnFilters: MRT_ColumnFiltersState,
 	sorting: MRT_SortingState
 ) => {
+	let query = {} as any;
 	const columnNameSort =
 		sorting.find((item) => item.id === 'name') || ({} as any);
-	const query = {
-		sortBy: 'name',
-		sort: columnNameSort.desc ? 'desc' : 'asc',
-	} as any;
+	if (columnNameSort.id) {
+		query = {
+			sortBy: columnNameSort.id,
+			sort: columnNameSort.desc ? 'DESC' : 'ASC',
+		};
+	}
 
 	columnFilters.forEach((filter) => (query[filter.id] = filter.value));
 

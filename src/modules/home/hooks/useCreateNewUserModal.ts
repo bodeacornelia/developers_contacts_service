@@ -1,8 +1,9 @@
 import React, { useReducer } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { addNewDeveloper } from '../../../api/developer';
-import { getResourceList } from '../../../api/requests';
-import { Role, Status, Team } from '../../../types';
+import { useMutation, useQueryClient } from 'react-query';
+import { creatResource } from '../../../api/requests';
+import { useResourceListQuery } from '../../../core/hooks/useAPIQuery';
+import { Developer, Role, Status, Team } from '../../../types';
+import { DEVELOPER_RESOURCE } from './useDevelopersTable';
 
 export interface APIRequestDeveloper {
 	name: string;
@@ -77,20 +78,14 @@ export const useCreateNewUserModal = ({
 const useCreateDeveloperMutation = () => {
 	const queryClient = useQueryClient();
 
-	return useMutation<string, unknown, APIRequestDeveloper>(addNewDeveloper, {
-		onSuccess: () => {
-			// Manually update the cache and trigger a re-render of the resources list
-			queryClient.invalidateQueries('developers');
-		},
-	});
-};
-
-const useResourceListQuery = <T>(resourceType: string) => {
-	return useQuery<T[]>(
-		[resourceType],
-		() => getResourceList<T>(resourceType),
+	return useMutation<Developer[], unknown, APIRequestDeveloper>(
+		(payload: APIRequestDeveloper) =>
+			creatResource<Developer>('users', payload),
 		{
-			refetchOnMount: true,
+			onSuccess: () => {
+				// Manually update the cache and trigger a re-render of the resources list
+				queryClient.invalidateQueries(DEVELOPER_RESOURCE);
+			},
 		}
 	);
 };

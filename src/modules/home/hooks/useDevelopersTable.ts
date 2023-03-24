@@ -3,14 +3,15 @@ import {
 	MRT_ColumnFiltersState,
 	MRT_SortingState,
 } from 'material-react-table';
-import React, { useMemo, useState } from 'react';
-import { useQuery } from 'react-query';
-import { getDeveloperList } from '../../../api/developer';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useResourceListQuery } from '../../../core/hooks/useAPIQuery';
 import { Developer } from '../../../types';
 import {
 	developersTableColumns,
 	getFormattedQuery,
 } from '../helpers/DevelopersTableHelper';
+
+export const DEVELOPER_RESOURCE = 'users';
 
 export const useDevelopersTable = () => {
 	const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
@@ -18,10 +19,18 @@ export const useDevelopersTable = () => {
 	);
 	const [sorting, setSorting] = useState<MRT_SortingState>([]);
 
-	const { data = [] as Developer[], isLoading } = useQuery<Developer[]>(
-		['developers', getFormattedQuery(columnFilters, sorting)],
-		getDeveloperList
+	const {
+		data = [] as Developer[],
+		isLoading,
+		refetch,
+	} = useResourceListQuery<Developer>(
+		DEVELOPER_RESOURCE,
+		getFormattedQuery(columnFilters, sorting)
 	);
+
+	useEffect(() => {
+		refetch();
+	}, [columnFilters, sorting]);
 
 	const columns = useMemo(
 		() => developersTableColumns as MRT_ColumnDef<Developer>[],
