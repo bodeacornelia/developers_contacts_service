@@ -5,6 +5,13 @@ export const developersTableColumns = [
 	{
 		accessorKey: 'name',
 		header: 'Name',
+		Cell: ({ row }: { row: any }) => {
+			const isTheFirstEntry = row.id === '0';
+			const originalCellValue = row.original.name;
+			return isTheFirstEntry
+				? `${originalCellValue} (Speaker)`
+				: originalCellValue;
+		},
 	},
 	{
 		accessorKey: 'email',
@@ -35,8 +42,8 @@ export const developersTableColumns = [
 ];
 
 export const getFormattedQuery = (
-	columnFilters: MRT_ColumnFiltersState,
-	sorting: MRT_SortingState
+	columnFilters: MRT_ColumnFiltersState = [],
+	sorting: MRT_SortingState = []
 ) => {
 	let query = {} as any;
 	const columnNameSort =

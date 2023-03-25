@@ -6,12 +6,17 @@ import {
 	updateResource,
 } from '../api/requests';
 
-export const useResourceListQuery = <T>(resourceType: string, query?: any) => {
+export const useResourceListQuery = <T>(
+	resourceType: string,
+	query?: any,
+	config?: any
+) => {
 	return useQuery<T[]>(
 		[resourceType],
 		() => getResourceList<T>(resourceType, query),
 		{
 			refetchOnMount: true,
+			...config,
 		}
 	);
 };
