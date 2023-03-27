@@ -4,7 +4,10 @@ import {
 	MRT_SortingState,
 } from 'material-react-table';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useResourceListQuery } from '../../../core/hooks/useAPIQuery';
+import {
+	useDeleteResource,
+	useResourceListQuery,
+} from '../../../core/hooks/useAPIQuery';
 import { Developer } from '../../../types';
 import {
 	developersTableColumns,
@@ -37,6 +40,12 @@ export const useDevelopersTable = () => {
 		[]
 	);
 
+	const deleteDeveloperMutation =
+		useDeleteResource<Developer>(DEVELOPER_RESOURCE);
+
+	const handleDeleteDeveloper = (developerId: string) => (event: any) =>
+		deleteDeveloperMutation.mutateAsync(developerId);
+
 	return {
 		columns,
 		data,
@@ -45,5 +54,6 @@ export const useDevelopersTable = () => {
 		isLoading,
 		setSorting,
 		setColumnFilters,
+		handleDeleteDeveloper,
 	};
 };

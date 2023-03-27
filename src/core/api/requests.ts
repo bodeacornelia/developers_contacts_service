@@ -81,3 +81,26 @@ export const updateResource = async <T>(
 		throw error;
 	}
 };
+
+export const deleteResource = async <T>(
+	resource: string,
+	resourceId: string
+): Promise<T[]> => {
+	const url = `${getApiURL()}${resource}/${resourceId}`;
+
+	try {
+		const response = await fetch(url, {
+			method: 'DELETE',
+		});
+
+		if (response.ok) {
+			const formattedRes = await response.json();
+
+			return formattedRes.data;
+		} else {
+			throw new Error('Something went wrong');
+		}
+	} catch (error) {
+		throw error;
+	}
+};

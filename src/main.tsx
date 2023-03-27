@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import ErrorBoundery from './core/components/ErrorBoundery';
 
@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 		<ErrorBoundery>
 			<QueryClientProvider client={queryClient}>
 				<App />
-				<ReactQueryDevtools initialIsOpen />
+				<ReactQueryDevtools initialIsOpen={false} />
 			</QueryClientProvider>
 		</ErrorBoundery>
 	</React.StrictMode>

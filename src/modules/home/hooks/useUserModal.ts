@@ -5,6 +5,7 @@ import {
 	useUpdateResourceMutation,
 } from '../../../core/hooks/useAPIQuery';
 import { Developer, Role, Status, Team } from '../../../types';
+import { onMutateDevelopersDesirializer } from '../helpers/UserModalHelper';
 import { DEVELOPER_RESOURCE } from './useDevelopersTable';
 
 export interface APIRequestDeveloper {
@@ -33,13 +34,6 @@ export const useUserModal = ({
 	user: Developer;
 	handleClose: () => void;
 }) => {
-	const createDeveloperMutation =
-		useCreateResourceMutation<Developer>(DEVELOPER_RESOURCE);
-	const updateDeveloperMutation = useUpdateResourceMutation<Developer>(
-		DEVELOPER_RESOURCE,
-		user.id
-	);
-
 	const { data: roles = [] as Role[] } =
 		useResourceListQuery<Role>(ROLE_RESOURCE);
 	const { data: statuses = [] as Status[] } =
@@ -75,17 +69,25 @@ export const useUserModal = ({
 		dispatch({ type: `${name}`, payload: value });
 	};
 
+	const createDeveloperMutation = useCreateResourceMutation<Developer>(
+		DEVELOPER_RESOURCE,
+		onMutateDevelopersDesirializer(roles, statuses, teams)
+	);
+	const updateDeveloperMutation = useUpdateResourceMutation<Developer>(
+		DEVELOPER_RESOURCE,
+		user.id
+	);
+
 	const handleFormSubmit = async (
 		event: React.FormEvent<HTMLFormElement>
 	) => {
 		event.preventDefault();
+		handleClose();
 		if (user.id) {
 			await updateDeveloperMutation.mutateAsync(userFormState);
 		} else {
 			await createDeveloperMutation.mutateAsync(userFormState);
 		}
-
-		handleClose();
 	};
 
 	return {
