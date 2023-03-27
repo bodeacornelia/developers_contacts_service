@@ -8,8 +8,6 @@ This application is built with *Vite, React, TypeScript and Material UI*, powerf
 - Node.js 
 - npm
 - developers_contacts_backend is up and running
-- docker https://docs.docker.com/get-docker/
-- docker-compose https://docs.docker.com/compose/install/
 
 ### Set up
 1. clone repo: clone [repository URL]
