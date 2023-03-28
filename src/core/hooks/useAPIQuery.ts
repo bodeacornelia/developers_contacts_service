@@ -51,9 +51,13 @@ export const useCreateResourceMutation = <T>(
 
 				return () => queryClient.setQueryData(resource, previousData);
 			},
-
-			onSuccess: () => {
-				// Manually update the cache and trigger a re-render of the resources list
+			onError: (error, newResource, rollBack: any) => {
+				// display a error Snackbar
+				if (rollBack) {
+					rollBack();
+				}
+			},
+			onSettled: () => {
 				queryClient.invalidateQueries(resource);
 			},
 		}
