@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { CREATE_NEW_USER } from '../constants';
 import UserModal from './UserModal';
 

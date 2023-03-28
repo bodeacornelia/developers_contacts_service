@@ -4,7 +4,6 @@ import {
 	MenuItem,
 	Select as MuiSelect,
 } from '@mui/material';
-import React from 'react';
 
 interface SelectProps {
 	id: string;

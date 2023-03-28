@@ -1,4 +1,3 @@
-import React from 'react';
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';

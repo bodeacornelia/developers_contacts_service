@@ -1,5 +1,4 @@
 import MaterialReactTable from 'material-react-table';
-import React from 'react';
 import { useDevelopersTable } from '../hooks/useDevelopersTable';
 import EditUser from './EditUser';
 import DeleteIcon from '@mui/icons-material/Delete';

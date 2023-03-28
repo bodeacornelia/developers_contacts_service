@@ -3,7 +3,7 @@ import {
 	MRT_ColumnFiltersState,
 	MRT_SortingState,
 } from 'material-react-table';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
 	useDeleteResource,
 	useResourceListQuery,

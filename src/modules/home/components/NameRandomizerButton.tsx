@@ -1,5 +1,4 @@
 import { Button } from '@mui/material';
-import React from 'react';
 import { useResourceListQuery } from '../../../core/hooks/useAPIQuery';
 import { Developer } from '../../../types';
 import { DEVELOPER_RESOURCE } from '../hooks/useDevelopersTable';

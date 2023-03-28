@@ -7,7 +7,6 @@ import {
 	Stack,
 	TextField,
 } from '@mui/material';
-import React from 'react';
 import Select from '../../../core/components/Select';
 import { Developer } from '../../../types';
 import {

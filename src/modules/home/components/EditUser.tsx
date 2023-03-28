@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import UserModal from './UserModal';
 import EditIcon from '@mui/icons-material/Edit';
 import { Developer } from '../../../types';
